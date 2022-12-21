@@ -1,0 +1,28 @@
+_format_version: "2.1"
+
+services:
+  - name: gist-service
+    url: https://api.github.com
+    routes:
+      - name: gists-route
+        paths:
+          - /gists
+  - name: server2
+    url: http://host.docker.internal:8002
+    routes:
+      - name: server2-route
+        paths:
+          - /server2
+  - name: server1
+    url: http://host.docker.internal:3000
+    routes:
+      - name: server1-route
+        paths:
+          - /server1
+
+plugins:
+  - name: rate-limiting
+    service: server1
+    config:
+      minute: 5
+      policy: local
