@@ -9,7 +9,7 @@ ARG NODE_ENV="production"
 ENV NODE_ENV $NODE_ENV
 
 # Setup database
-ARG KONGA_DB_NAME="konga-db"
+ARG KONGA_DB_NAME="konga_db"
 ENV KONGA_DB_NAME $KONGA_DB_NAME
 
 ARG PGHOST
