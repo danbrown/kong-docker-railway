@@ -1,7 +1,7 @@
 # Get Konga
 FROM node:12.16-alpine
 
-RUN apk install git && apk upgrade
+RUN apk upgrade && apk add bash git ca-certificates
 RUN git clone https://github.com/pantsel/konga /app
 WORKDIR /app
 
