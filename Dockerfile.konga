@@ -48,7 +48,7 @@ ENV DB_URI="mysql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${KONGA_DB_N
 
 # Run konga prepare to populate the database, KONGA_DB_NAME should be already created in database
 RUN chmod +x ./start.sh
-RUN /app/start.sh -c prepare -a postgres -u $DB_URI
+RUN /app/start.sh -c prepare -a mysql -u $DB_URI
 
 EXPOSE 1337
 
