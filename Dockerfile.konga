@@ -34,16 +34,16 @@ ARG DB_USER
 ENV DB_USER $PGUSER
 # RUN echo $DB_USER
 
-ARG KONGA_DB_URL
-ENV KONGA_DB_URL="postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${KONGA_DB_NAME}"
-# RUN echo $KONGA_DB_URL
+ARG DB_URI
+ENV DB_URI="postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${KONGA_DB_NAME}"
+# RUN echo $DB_URI
 
 # Install node_modules
 RUN npm i
 
 # Run konga prepare to populate the database, KONGA_DB_NAME should be already created in database
 RUN chmod +x ./start.sh
-RUN ./start.sh -c prepare -a postgres -u $KONGA_DB_URL
+RUN ./start.sh -c prepare -a postgres -u $DB_URI
 
 EXPOSE 1337
 
