@@ -1,5 +1,5 @@
 # Get Konga base image
-FROM pantsel/konga:alpine
+FROM pantsel/konga
 
 # Setup Konga
 ARG TOKEN_SECRET=""
