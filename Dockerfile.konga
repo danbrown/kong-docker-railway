@@ -1,6 +1,7 @@
 # Get Konga
 FROM node:12.16-alpine
 
+RUN apt install git && apt upgrade
 RUN git clone https://github.com/pantsel/konga /app
 WORKDIR /app
 
