@@ -42,7 +42,7 @@ ENV DB_USER $PGUSER
 # RUN echo $DB_USER
 
 ARG DB_URI
-ENV DB_URI="postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${KONGA_DB_NAME}"
+ENV DB_URI="postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${KONGA_DB_NAME}?currentSchema=kong"
 # RUN echo $DB_URI
 
 # Run konga prepare to populate the database, KONGA_DB_NAME should be already created in database
