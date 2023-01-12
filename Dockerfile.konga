@@ -17,7 +17,7 @@ ENV NODE_ENV $NODE_ENV
 
 # Setup database
 ARG DB_ADAPTER="mysql"
-ARG DB_SSL=true
+# ARG DB_SSL=true
 ARG KONGA_DB_NAME="konga_db"
 ENV KONGA_DB_NAME $KONGA_DB_NAME
 
@@ -45,6 +45,7 @@ ENV DB_USER $MYSQLUSER
 ARG DB_URI
 ENV DB_URI="mysql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${KONGA_DB_NAME}"
 # RUN echo $DB_URI
+ARG NO_AUTH=true
 
 # Run konga prepare to populate the database, KONGA_DB_NAME should be already created in database
 RUN chmod +x ./start.sh
