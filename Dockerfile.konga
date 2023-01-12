@@ -2,7 +2,7 @@
 FROM node:12.16-alpine
 
 RUN apk upgrade && apk add bash git ca-certificates
-RUN git clone https://github.com/pantsel/konga /app
+RUN git clone https://github.com/leobeckp/konga /app
 WORKDIR /app
 
 # Install node_modules
