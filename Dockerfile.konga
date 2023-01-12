@@ -1,5 +1,11 @@
-# Get Konga base image
-FROM pantsel/konga
+# Get Konga
+FROM node:12.16-alpine
+
+RUN git clone https://github.com/pantsel/konga /app
+WORKDIR /app
+
+# Install node_modules
+RUN npm i
 
 # Setup Konga
 ARG TOKEN_SECRET=""
@@ -38,13 +44,10 @@ ARG DB_URI
 ENV DB_URI="postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${KONGA_DB_NAME}"
 # RUN echo $DB_URI
 
-# Install node_modules
-RUN npm i
-
 # Run konga prepare to populate the database, KONGA_DB_NAME should be already created in database
 RUN chmod +x ./start.sh
-RUN ./start.sh -c prepare -a postgres -u $DB_URI
+RUN /app/start.sh -c prepare -a postgres -u $DB_URI
 
 EXPOSE 1337
 
-CMD ["./start.sh"]
+ENTRYPOINT ["/app/start.sh"]
