@@ -38,7 +38,7 @@ ENV KONGA_DB_URL="postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/$
 # RUN echo $KONGA_DB_URL
 
 # Run konga prepare to populate the database, KONGA_DB_NAME should be already created in database
-RUN ls
+RUN echo $(ls)
 RUN prepare -a postgres -u $KONGA_DB_URL
 
 EXPOSE 1337
