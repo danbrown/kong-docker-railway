@@ -9,8 +9,8 @@ ENV POSTGRES_PASSWORD $POSTGRES_PASSWORD
 
 # get git and node
 RUN apk upgrade \
-  && apk add bash git ca-certificates \
-  && apk add node
+  && apk add --update bash git ca-certificates \
+  && apk add --update nodejs npm
   
 RUN echo $(node -v)
 RUN echo $(npm -v)
