@@ -12,29 +12,13 @@ RUN echo $(cat /etc/alpine-release)
 RUN apk upgrade \
   && apk add --update bash git ca-certificates curl
 
-# START nodejs setup 
-# Replace shell with bash so we can source files
-RUN rm /bin/sh && ln -s /bin/bash /bin/sh
-
-# Install base dependencies
-RUN mkdir ~/.nvm
-ENV NVM_DIR ~/.nvm # or ~/.nvm , depending
-ENV NODE_VERSION 12.16
-
-# Install nvm with node and npm
-RUN curl https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash \
-    && . $NVM_DIR/nvm.sh \
-    && nvm install $NODE_VERSION \
-    && nvm alias default $NODE_VERSION \
-    && nvm use default
-
-ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
-ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
-  
+# Installing Node
+SHELL ["/bin/bash", "--login", "-i", "-c"]
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
+RUN source /root/.bashrc && nvm install 12.14.1
+SHELL ["/bin/bash", "--login", "-c"]
 RUN echo $(node -v)
 RUN echo $(npm -v)
-
-# END nodejs setup 
 
 # Get Konga
 RUN git clone https://github.com/pantsel/konga /app
