@@ -8,9 +8,11 @@ ARG POSTGRES_PASSWORD
 ENV POSTGRES_PASSWORD $POSTGRES_PASSWORD
 
 # get git and node
+RUN echo $(cat /etc/alpine-release)
 RUN apk upgrade \
-  && apk add --update bash git ca-certificates \
-  && apk add 'nodejs=12.22.6-r0' 'npm=12.22.6-r0'
+  && apk add --update bash git ca-certificates
+
+RUN apk add nodejs==12.22.6-r0 npm==12.22.6-r0
   
 RUN echo $(node -v)
 RUN echo $(npm -v)
