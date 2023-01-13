@@ -1,0 +1,67 @@
+# setup postgres image
+FROM cimg/postgres:9.6-postgis
+
+ARG POSTGRES_USER
+ENV POSTGRES_USER $POSTGRES_USER
+
+ARG POSTGRES_PASSWORD
+ENV POSTGRES_PASSWORD $POSTGRES_PASSWORD
+
+# Install node - https://stackoverflow.com/a/43497744
+ENV NVM_DIR /usr/local/nvm
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
+ENV NODE_VERSION v12.16.3
+RUN /bin/bash -c "source $NVM_DIR/nvm.sh && nvm install $NODE_VERSION && nvm use --delete-prefix $NODE_VERSION"
+
+ENV NODE_PATH $NVM_DIR/versions/node/$NODE_VERSION/lib/node_modules
+ENV PATH      $NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH
+
+RUN echo $(node -v)
+RUN echo $(npm -v)
+
+# Get Konga
+RUN git clone https://github.com/pantsel/konga /app
+WORKDIR /app
+
+# Install node_modules in /app
+RUN npm i
+
+# Setup Konga
+ARG TOKEN_SECRET=""
+ENV TOKEN_SECRET $TOKEN_SECRET
+
+ARG NODE_ENV="production"
+ENV NODE_ENV $NODE_ENV
+
+# Setup database
+ARG DB_ADAPTER="postgres"
+ARG DB_SSL=true
+ARG KONGA_DB_NAME="konga_db"
+ENV KONGA_DB_NAME $KONGA_DB_NAME
+
+ARG DB_HOST="localhost"
+ENV DB_HOST $DB_HOST
+RUN echo $DB_HOST
+
+ARG DB_PORT="5432"
+ENV DB_PORT $DB_PORT
+RUN echo $DB_PORT
+
+ARG DB_PASSWORD=$POSTGRES_PASSWORD
+ENV DB_PASSWORD $DB_PASSWORD
+RUN echo $DB_PASSWORD
+
+ARG DB_USER=$POSTGRES_USER
+ENV DB_USER $DB_USER
+RUN echo $DB_USER
+
+ARG DB_URI
+ENV DB_URI="postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${KONGA_DB_NAME}?currentSchema=kong"
+RUN echo $DB_URI
+
+# Run konga prepare to populate the database, KONGA_DB_NAME should be already created in database
+# RUN /app/start.sh -c prepare -a postgres -u $DB_URI
+
+EXPOSE 1337
+
+# ENTRYPOINT ["/app/start.sh"]

@@ -1,5 +1,5 @@
 # setup postgres image
-FROM cimg/postgres:9.6-postgis
+FROM node:12.16.3
 
 ARG POSTGRES_USER
 ENV POSTGRES_USER $POSTGRES_USER
@@ -7,26 +7,19 @@ ENV POSTGRES_USER $POSTGRES_USER
 ARG POSTGRES_PASSWORD
 ENV POSTGRES_PASSWORD $POSTGRES_PASSWORD
 
-# Keys
-# RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 40976EAF437D05B5
-# RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32
-ENV NVM_DIR /usr/local/nvm
-RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
-ENV NODE_VERSION v12.16.3
-RUN /bin/bash -c "source $NVM_DIR/nvm.sh && nvm install $NODE_VERSION && nvm use --delete-prefix $NODE_VERSION"
-
-ENV NODE_PATH $NVM_DIR/versions/node/$NODE_VERSION/lib/node_modules
-ENV PATH      $NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH
-
-# test node
 RUN echo $(node -v)
 RUN echo $(npm -v)
+
+# Update apk and install git
+RUN echo $(cat /etc/alpine-release)
+RUN apk upgrade \
+  && apk add --update bash git ca-certificates
 
 # Get Konga
 RUN git clone https://github.com/pantsel/konga /app
 WORKDIR /app
 
-# Install node_modules
+# Install node_modules in /app
 RUN npm i
 
 # Setup Konga
@@ -37,29 +30,31 @@ ARG NODE_ENV="production"
 ENV NODE_ENV $NODE_ENV
 
 # Setup database
-ARG DB_ADAPTER="postgres"
+ARG DB_ADAPTER="mongo"
 ARG DB_SSL=true
 ARG KONGA_DB_NAME="konga_db"
 ENV KONGA_DB_NAME $KONGA_DB_NAME
 
-ARG DB_HOST="localhost"
-ENV DB_HOST $DB_HOST
-RUN echo $DB_HOST
+# ARG DB_HOST="localhost"
+# ENV DB_HOST $DB_HOST
+# RUN echo $DB_HOST
 
-ARG DB_PORT="5432"
-ENV DB_PORT $DB_PORT
-RUN echo $DB_PORT
+# ARG DB_PORT="5432"
+# ENV DB_PORT $DB_PORT
+# RUN echo $DB_PORT
 
-ARG DB_PASSWORD=$POSTGRES_PASSWORD
-ENV DB_PASSWORD $DB_PASSWORD
-RUN echo $DB_PASSWORD
+# ARG DB_PASSWORD=$POSTGRES_PASSWORD
+# ENV DB_PASSWORD $DB_PASSWORD
+# RUN echo $DB_PASSWORD
 
-ARG DB_USER=$POSTGRES_USER
-ENV DB_USER $DB_USER
-RUN echo $DB_USER
+# ARG DB_USER=$POSTGRES_USER
+# ENV DB_USER $DB_USER
+# RUN echo $DB_USER
 
+ARG MONGO_URI
 ARG DB_URI
-ENV DB_URI="postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${KONGA_DB_NAME}?currentSchema=kong"
+ENV DB_URI $MONGO_URI
+# ENV DB_URI="postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${KONGA_DB_NAME}?currentSchema=kong"
 RUN echo $DB_URI
 
 # Run konga prepare to populate the database, KONGA_DB_NAME should be already created in database
