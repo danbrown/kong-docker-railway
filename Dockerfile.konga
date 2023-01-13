@@ -10,26 +10,14 @@ ENV POSTGRES_PASSWORD $POSTGRES_PASSWORD
 # get git
 RUN echo $(cat /etc/alpine-release)
 RUN apk upgrade \
-  && apk add --update bash git ca-certificates wget
+  && apk add --update bash git ca-certificates curl
 
 # START nodejs setup 
 # Replace shell with bash so we can source files
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
-# Set debconf to run non-interactively
-RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
 # Install base dependencies
-RUN apt-get update && apt-get install -y -q --no-install-recommends \
-        apt-transport-https \
-        build-essential \
-        ca-certificates \
-        curl \
-        git \
-        libssl-dev \
-        wget \
-    && rm -rf /var/lib/apt/lists/*
-
 ENV NVM_DIR /usr/local/nvm # or ~/.nvm , depending
 ENV NODE_VERSION 12.16
 
