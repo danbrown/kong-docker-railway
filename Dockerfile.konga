@@ -30,7 +30,9 @@ ENV NODE_ENV $NODE_ENV
 
 # Setup database
 ARG DB_ADAPTER="mongo"
+ENV DB_ADAPTER $DB_ADAPTER
 ARG DB_SSL="true"
+ENV DB_SSL $DB_SSL
 ARG KONGA_DB_NAME="konga_db"
 ENV DB_DATABASE $KONGA_DB_NAME
 
@@ -44,4 +46,4 @@ RUN /app/start.sh -c prepare -a ${DB_ADAPTER} -u ${DB_URI}
 
 EXPOSE 1337
 
-CMD ["/app/start.sh", "-a", "mongo", "-u", "${DB_URI}"]
+ENTRYPOINT ["/app/start.sh"]
