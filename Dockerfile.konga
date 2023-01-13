@@ -10,9 +10,13 @@ ENV POSTGRES_PASSWORD $POSTGRES_PASSWORD
 # get git and node
 RUN echo $(cat /etc/alpine-release)
 RUN apk upgrade \
-  && apk add --update bash git ca-certificates
+  && apk add --update bash git ca-certificates wget
 
-RUN apk add nodejs==12.22.6-r0 npm==12.22.6-r0
+RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+RUN source ~/.bashrc
+
+RUN nvm install 12.16
+RUN nvm use 12.16
   
 RUN echo $(node -v)
 RUN echo $(npm -v)
