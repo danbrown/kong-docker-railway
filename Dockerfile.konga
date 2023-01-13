@@ -10,7 +10,7 @@ ENV POSTGRES_PASSWORD $POSTGRES_PASSWORD
 # get git and node
 RUN apk upgrade \
   && apk add --update bash git ca-certificates \
-  && apk add --update nodejs npm
+  && apk add 'nodejs=12.22.6-r0' 'npm=12.22.6-r0'
   
 RUN echo $(node -v)
 RUN echo $(npm -v)
