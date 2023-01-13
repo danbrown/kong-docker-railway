@@ -18,7 +18,7 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 
 # Install base dependencies
-ENV NVM_DIR /usr/local/nvm # or ~/.nvm , depending
+ENV NVM_DIR ~/.nvm # or ~/.nvm , depending
 ENV NODE_VERSION 12.16
 
 # Install nvm with node and npm
