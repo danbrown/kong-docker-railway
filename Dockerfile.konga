@@ -1,5 +1,5 @@
 # setup postgres image
-FROM circleci/postgres:9.6.2
+FROM cimg/postgres:9.6-postgis
 
 ARG POSTGRES_USER
 ENV POSTGRES_USER $POSTGRES_USER
@@ -28,29 +28,34 @@ RUN apt-get update && apt-get install -y -q --no-install-recommends \
   wget \
   && rm -rf /var/lib/apt/lists/*
 
-ENV NVM_DIR /usr/local/nvm # or ~/.nvm , depending
-ENV NODE_VERSION 0.10.33
+ENV NVM_DIR="~/.nvm" 
+# or ~/.nvm , depending
+ENV NODE_VERSION 12.16
 
 # Install nvm with node and npm
-RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.20.0/install.sh | bash \
+RUN mkdir -p $NVM_DIR
+RUN curl https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash \
   && . $NVM_DIR/nvm.sh \
   && nvm install $NODE_VERSION \
   && nvm alias default $NODE_VERSION \
-  && nvm use default
+  && nvm use default \
+  && git clone https://github.com/pantsel/konga /app \
+  && cd /app \
+  && npm i
 
 ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
 
 # test node
-RUN echo $(node -v)
-RUN echo $(npm -v)
+# RUN echo $(node -v)
+# RUN echo $(npm -v)
 
 # Get Konga
-RUN git clone https://github.com/pantsel/konga /app
+# RUN git clone https://github.com/pantsel/konga /app
 WORKDIR /app
 
 # Install node_modules
-RUN npm i
+# RUN npm i
 
 # Setup Konga
 ARG TOKEN_SECRET=""
