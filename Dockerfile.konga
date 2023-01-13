@@ -7,6 +7,10 @@ ENV POSTGRES_USER $POSTGRES_USER
 ARG POSTGRES_PASSWORD
 ENV POSTGRES_PASSWORD $POSTGRES_PASSWORD
 
+# Keys
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 40976EAF437D05B5
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 3B4FE6ACC0B21F32
+
 # Replace shell with bash so we can source files
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
