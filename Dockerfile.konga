@@ -13,13 +13,6 @@ RUN apk upgrade \
   && apk add --update bash git ca-certificates wget
 
 # START nodejs setup 
-RUN touch ~/.bashrc
-RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-RUN source ~/.bashrc
-
-RUN nvm install 12.16
-RUN nvm use 12.16
-
 # Replace shell with bash so we can source files
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
@@ -38,10 +31,10 @@ RUN apt-get update && apt-get install -y -q --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 ENV NVM_DIR /usr/local/nvm # or ~/.nvm , depending
-ENV NODE_VERSION 0.10.33
+ENV NODE_VERSION 12.16
 
 # Install nvm with node and npm
-RUN curl https://raw.githubusercontent.com/creationix/nvm/v0.20.0/install.sh | bash \
+RUN curl https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash \
     && . $NVM_DIR/nvm.sh \
     && nvm install $NODE_VERSION \
     && nvm alias default $NODE_VERSION \
@@ -52,6 +45,8 @@ ENV PATH      $NVM_DIR/v$NODE_VERSION/bin:$PATH
   
 RUN echo $(node -v)
 RUN echo $(npm -v)
+
+# END nodejs setup 
 
 # Get Konga
 RUN git clone https://github.com/pantsel/konga /app
