@@ -44,4 +44,4 @@ RUN /app/start.sh -c prepare -a ${DB_ADAPTER} -u ${DB_URI}
 
 EXPOSE 1337
 
-ENTRYPOINT ["/app/start.sh", "-a", "mongo", "-u", "${DB_URI}"]
+CMD ["/app/start.sh", "-a", "mongo", "-u", "${DB_URI}"]
