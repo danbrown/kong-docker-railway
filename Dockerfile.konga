@@ -12,15 +12,12 @@ RUN echo $(cat /etc/alpine-release)
 RUN apk upgrade \
   && apk add --update bash git ca-certificates wget
 
+RUN touch ~/.bashrc
 RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+RUN source ~/.bashrc
 
-RUN export NVM_DIR="$HOME/.nvm" 
-#  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-
-RUN $NVM_DIR/nvm.sh install 12.16
-
-# RUN nvm install 12.16
-# RUN nvm use 12.16
+RUN nvm install 12.16
+RUN nvm use 12.16
   
 RUN echo $(node -v)
 RUN echo $(npm -v)
