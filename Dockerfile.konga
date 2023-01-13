@@ -16,8 +16,8 @@ RUN apk upgrade \
 # Replace shell with bash so we can source files
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
-
 # Install base dependencies
+RUN mkdir ~/.nvm
 ENV NVM_DIR ~/.nvm # or ~/.nvm , depending
 ENV NODE_VERSION 12.16
 
