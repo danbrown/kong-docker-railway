@@ -11,9 +11,8 @@ RUN echo $(node -v)
 RUN echo $(npm -v)
 
 # Update apk and install git
-RUN echo $(cat /etc/alpine-release)
-RUN apk upgrade \
-  && apk add --update bash git ca-certificates
+RUN apt upgrade \
+  && apt install --update bash git ca-certificates
 
 # Get Konga
 RUN git clone https://github.com/pantsel/konga /app
