@@ -1,5 +1,29 @@
+# setup postgres image
+FROM postgres:11-alpine
+
+ARG KONG_DB_PASSWORD
+ENV KONG_DB_PASSWORD $KONG_DB_PASSWORD
+
+ARG KONG_DB_USER
+ENV KONG_DB_USER $KONG_DB_USER
+
+ARG POSTGRES_USER=${KONG_DB_USER}
+ENV POSTGRES_USER $POSTGRES_USER
+
+ARG POSTGRES_PASSWORD=${KONG_DB_PASSWORD}
+ENV POSTGRES_PASSWORD $POSTGRES_PASSWORD
+
+# get git and node
+RUN apy upgrade \
+  && apk add bash git ca-certificates \
+  && apk add node
+  
+RUN echo $(node -v)
+RUN echo $(npm -v)
+
 # Get Konga
-FROM pantsel/konga
+RUN git clone https://github.com/pantsel/konga /app
+WORKDIR /app
 
 # Install node_modules
 RUN npm i
