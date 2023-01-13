@@ -15,7 +15,7 @@ RUN apk upgrade \
 # Installing Node
 RUN mkdir /root/.bashrc
 # SHELL ["/bin/bash", "--login", "-i", "-c"]
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash && source /root/.bashrc && nvm install 12.14.1
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash && source /root/.bashrc && export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && nvm install 12.14.1
 # RUN source /root/.bashrc && nvm install 12.14.1
 # SHELL ["/bin/bash", "--login", "-c"]
 RUN echo $(node -v)
