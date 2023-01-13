@@ -14,7 +14,7 @@ ARG POSTGRES_PASSWORD=${KONG_DB_PASSWORD}
 ENV POSTGRES_PASSWORD $POSTGRES_PASSWORD
 
 # get git and node
-RUN apy upgrade \
+RUN apk upgrade \
   && apk add bash git ca-certificates \
   && apk add node
   
