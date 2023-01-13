@@ -30,35 +30,18 @@ ENV NODE_ENV $NODE_ENV
 
 # Setup database
 ARG DB_ADAPTER="mongo"
-ARG DB_SSL=true
+ARG DB_SSL="true"
 ARG KONGA_DB_NAME="konga_db"
-ENV KONGA_DB_NAME $KONGA_DB_NAME
-
-# ARG DB_HOST="localhost"
-# ENV DB_HOST $DB_HOST
-# RUN echo $DB_HOST
-
-# ARG DB_PORT="5432"
-# ENV DB_PORT $DB_PORT
-# RUN echo $DB_PORT
-
-# ARG DB_PASSWORD=$POSTGRES_PASSWORD
-# ENV DB_PASSWORD $DB_PASSWORD
-# RUN echo $DB_PASSWORD
-
-# ARG DB_USER=$POSTGRES_USER
-# ENV DB_USER $DB_USER
-# RUN echo $DB_USER
+ENV DB_DATABASE $KONGA_DB_NAME
 
 ARG MONGO_URI
 ARG DB_URI
 ENV DB_URI $MONGO_URI
-# ENV DB_URI="postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${KONGA_DB_NAME}?currentSchema=kong"
-RUN echo $DB_URI
+# RUN echo $DB_URI
 
 # Run konga prepare to populate the database, KONGA_DB_NAME should be already created in database
 RUN /app/start.sh -c prepare -a ${DB_ADAPTER} -u ${DB_URI}
 
 EXPOSE 1337
 
-ENTRYPOINT ["/app/start.sh"]
+ENTRYPOINT ["/app/start.sh", "-a", "mongo", "-u", "${DB_URI}"]
