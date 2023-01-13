@@ -57,7 +57,7 @@ ENV DB_URI $MONGO_URI
 RUN echo $DB_URI
 
 # Run konga prepare to populate the database, KONGA_DB_NAME should be already created in database
-RUN /app/start.sh -c prepare -a postgres -u $DB_URI
+RUN /app/start.sh -c prepare -a ${DB_ADAPTER} -u ${DB_URI}
 
 EXPOSE 1337
 
