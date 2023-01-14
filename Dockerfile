@@ -52,22 +52,23 @@ RUN kong check /etc/kong.conf
 USER root
 ENV OIDC_PLUGIN_VERSION=1.3.0-3
 ENV JWT_PLUGIN_VERSION=1.1.0-1
+ENV LUAROCKS_VERSION=2.4.4-r1
 
-RUN apk update && apk add git unzip luarocks
+RUN apk update && apk add git unzip luarocks=${LUAROCKS_VERSION}
 RUN luarocks install kong-oidc
 RUN git clone --branch v${OIDC_PLUGIN_VERSION} https://github.com/revomatico/kong-oidc.git
 WORKDIR /kong-oidc
 RUN mv kong-oidc.rockspec kong-oidc-${OIDC_PLUGIN_VERSION}.rockspec
 RUN luarocks make kong-oidc-${OIDC_PLUGIN_VERSION}.rockspec
 # RUN luarocks pack kong-oidc ${OIDC_PLUGIN_VERSION} 
-RUN luarocks install kong-oidc-${OIDC_PLUGIN_VERSION}.all.rock
+# RUN luarocks install kong-oidc-${OIDC_PLUGIN_VERSION}.all.rock
 
-WORKDIR /
-RUN git clone --branch 20200505-access-token-processing https://github.com/BGaunitz/kong-plugin-jwt-keycloak.git
-WORKDIR /kong-plugin-jwt-keycloak
-RUN luarocks make kong-plugin-jwt-keycloak-${JWT_PLUGIN_VERSION}.rockspec
-RUN luarocks pack kong-plugin-jwt-keycloak ${JWT_PLUGIN_VERSION} \
-  && luarocks install kong-plugin-jwt-keycloak-${JWT_PLUGIN_VERSION}.all.rock
+# WORKDIR /
+# RUN git clone --branch 20200505-access-token-processing https://github.com/BGaunitz/kong-plugin-jwt-keycloak.git
+# WORKDIR /kong-plugin-jwt-keycloak
+# RUN luarocks make kong-plugin-jwt-keycloak-${JWT_PLUGIN_VERSION}.rockspec
+# RUN luarocks pack kong-plugin-jwt-keycloak ${JWT_PLUGIN_VERSION} \
+#   && luarocks install kong-plugin-jwt-keycloak-${JWT_PLUGIN_VERSION}.all.rock
 USER kong
 
 # Run kong migrations database 'kong' in postgres should already exist
