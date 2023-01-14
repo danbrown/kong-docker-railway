@@ -1,6 +1,6 @@
-# Kong + Konga + PgAdmin
+# Kong + Konga
 
-This repository contains Dockerfiles to deploy Kong, Konga and PgAdmin.
+This repository contains Dockerfiles to deploy Kong, Konga.
 
 Made for deploying in [Railway.app][https://railway.app].
 
