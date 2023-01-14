@@ -13,7 +13,7 @@ ENV KONG_PROXY_ACCESS_LOG=/dev/stdout
 ENV KONG_ADMIN_ACCESS_LOG=/dev/stdout
 ENV KONG_PROXY_ERROR_LOG=/dev/stderr
 ENV KONG_ADMIN_ERROR_LOG=/dev/stderr
-ENV KONG_PLUGINS="bundled,base_plugin,oidc"
+ENV KONG_PLUGINS="bundled,oidc"
 
 # Kong Setup database
 ARG KONG_DATABASE="postgres"
@@ -48,10 +48,26 @@ COPY kong.conf /etc/kong.conf
 RUN kong check /etc/kong.conf
 
 
-# download kong-oidc plugin
+# download kong-oidc and jwt plugin
 USER root
-RUN apk add --no-cache git luarocks unzip
+ENV OIDC_PLUGIN_VERSION=1.2.3-2
+ENV JWT_PLUGIN_VERSION=1.1.0-1
+
+RUN apk update && apk add git unzip luarocks
 RUN luarocks install kong-oidc
+RUN git clone --branch v${OIDC_PLUGIN_VERSION} https://github.com/revomatico/kong-oidc.git
+WORKDIR /kong-oidc
+RUN luarocks make
+RUN luarocks pack kong-oidc ${OIDC_PLUGIN_VERSION} \
+  && luarocks install kong-oidc-${OIDC_PLUGIN_VERSION}.all.rock
+
+WORKDIR /
+RUN git clone --branch 20200505-access-token-processing https://github.com/BGaunitz/kong-plugin-jwt-keycloak.git
+WORKDIR /kong-plugin-jwt-keycloak
+RUN luarocks make
+RUN luarocks pack kong-plugin-jwt-keycloak ${JWT_PLUGIN_VERSION} \
+  && luarocks install kong-plugin-jwt-keycloak-${JWT_PLUGIN_VERSION}.all.rock
+USER kong
 
 # Run kong migrations database 'kong' in postgres should already exist
 RUN kong migrations bootstrap
