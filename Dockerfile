@@ -59,7 +59,7 @@ RUN git clone --branch v${OIDC_PLUGIN_VERSION} https://github.com/revomatico/kon
 WORKDIR /kong-oidc
 RUN mv kong-oidc.rockspec kong-oidc-${OIDC_PLUGIN_VERSION}.rockspec
 RUN luarocks make kong-oidc-${OIDC_PLUGIN_VERSION}.rockspec
-RUN luarocks pack kong-oidc ${OIDC_PLUGIN_VERSION} 
+# RUN luarocks pack kong-oidc ${OIDC_PLUGIN_VERSION} 
 RUN luarocks install kong-oidc-${OIDC_PLUGIN_VERSION}.all.rock
 
 WORKDIR /
