@@ -52,9 +52,8 @@ RUN kong check /etc/kong.conf
 USER root
 ENV OIDC_PLUGIN_VERSION=1.3.0-3
 ENV JWT_PLUGIN_VERSION=1.1.0-1
-ENV LUAROCKS_VERSION=2.4.4-r1
 
-RUN apk update && apk add git unzip luarocks=${LUAROCKS_VERSION}
+RUN apk update && apk add git unzip luarocks
 RUN luarocks install kong-oidc
 RUN git clone --branch v${OIDC_PLUGIN_VERSION} https://github.com/revomatico/kong-oidc.git
 WORKDIR /kong-oidc
