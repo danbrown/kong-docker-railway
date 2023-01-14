@@ -49,6 +49,7 @@ RUN kong check /etc/kong.conf
 
 
 # download kong-oidc plugin
+USER root
 RUN apk add --no-cache git luarocks unzip
 RUN luarocks install kong-oidc
 
