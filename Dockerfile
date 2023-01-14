@@ -50,7 +50,7 @@ RUN kong check /etc/kong.conf
 
 # download kong-oidc and jwt plugin
 USER root
-ENV OIDC_PLUGIN_VERSION=1.2.3-2
+ENV OIDC_PLUGIN_VERSION=1.3.0-3
 ENV JWT_PLUGIN_VERSION=1.1.0-1
 
 RUN apk update && apk add git unzip luarocks
