@@ -13,6 +13,7 @@ ENV KONG_PROXY_ACCESS_LOG=/dev/stdout
 ENV KONG_ADMIN_ACCESS_LOG=/dev/stdout
 ENV KONG_PROXY_ERROR_LOG=/dev/stderr
 ENV KONG_ADMIN_ERROR_LOG=/dev/stderr
+ENV KONG_PLUGINS=oidc
 
 # Kong Setup database
 ARG KONG_DATABASE="postgres"
@@ -45,6 +46,11 @@ COPY ./kong.yml /usr/local/kong/declarative/kong.yml
 # Setup kong.conf custom config
 COPY kong.conf /etc/kong.conf
 RUN kong check /etc/kong.conf
+
+
+# download kong-oidc plugin
+RUN apk add --no-cache git luarocks unzip
+RUN luarocks install kong-oidc
 
 # Run kong migrations database 'kong' in postgres should already exist
 RUN kong migrations bootstrap
