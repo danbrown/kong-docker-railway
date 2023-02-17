@@ -59,15 +59,11 @@ RUN git clone --branch v${OIDC_PLUGIN_VERSION} https://github.com/revomatico/kon
 WORKDIR /kong-oidc
 RUN mv kong-oidc.rockspec kong-oidc-${OIDC_PLUGIN_VERSION}.rockspec
 RUN luarocks make kong-oidc-${OIDC_PLUGIN_VERSION}.rockspec
-# RUN luarocks pack kong-oidc ${OIDC_PLUGIN_VERSION} 
-# RUN luarocks install kong-oidc-${OIDC_PLUGIN_VERSION}.all.rock
 
 WORKDIR /
 RUN git clone --branch 20200505-access-token-processing https://github.com/BGaunitz/kong-plugin-jwt-keycloak.git
 WORKDIR /kong-plugin-jwt-keycloak
 RUN luarocks make kong-plugin-jwt-keycloak-${JWT_PLUGIN_VERSION}.rockspec
-# RUN luarocks pack kong-plugin-jwt-keycloak ${JWT_PLUGIN_VERSION} 
-# RUN luarocks install kong-plugin-jwt-keycloak-${JWT_PLUGIN_VERSION}.all.rock
 WORKDIR /
 USER kong
 
