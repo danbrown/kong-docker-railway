@@ -43,6 +43,7 @@ ENV DB_URI $DATABASE_URL
 # RUN echo $DB_URI
 
 # Run konga prepare to populate the database, KONGA_DB_NAME should be already created in database
+RUN node /app/bin/konga.js prepare --adapter ${DB_ADAPTER} --uri ${DB_URI}
 RUN /app/start.sh -c prepare -a ${DB_ADAPTER} -u ${DB_URI}
 
 EXPOSE 1337
