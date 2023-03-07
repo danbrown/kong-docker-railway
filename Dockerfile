@@ -16,7 +16,7 @@ ENV KONG_ADMIN_ERROR_LOG=/dev/stderr
 ENV KONG_PLUGINS="bundled,oidc"
 
 # kong manager gui setup
-ARG KONG_ADMIN_GUI_URL="http://localhost:8002"
+ARG KONG_ADMIN_GUI_URL="http://localhost:8002/manager"
 ENV KONG_ADMIN_GUI_URL $KONG_ADMIN_GUI_URL
 ARG KONG_ADMIN_GUI_PATH="/manager"
 ENV KONG_ADMIN_GUI_PATH $KONG_ADMIN_GUI_PATH
