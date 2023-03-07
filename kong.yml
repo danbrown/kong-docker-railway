@@ -26,3 +26,10 @@ plugins:
     config:
       minute: 5
       policy: local
+
+env:
+  enforce_rbac: "on"
+  admin_gui_auth: basic-auth
+  admin_gui_session_conf: '{"cookie_name":"admin_session","secret":"super-secret","cookie_secure":false,"storage":"kong"}'
+  portal_auth: basic-auth
+  portal_session_conf: '{"cookie_name":"portal_session","secret":"super-secret","cookie_secure":false,"storage":"kong"}'
