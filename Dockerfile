@@ -75,6 +75,7 @@ RUN kong check /etc/kong.conf
 
 # Run kong migrations database 'kong' in postgres should already exist
 RUN kong migrations bootstrap
+RUN kong migrations up
 
 EXPOSE 8000 8443 8001 8444 8002 8445
 
