@@ -60,7 +60,7 @@ ENV OIDC_PLUGIN_VERSION=1.3.0-3
 ENV JWT_PLUGIN_VERSION=1.1.0-1
 
 RUN apt update
-RUN apt install git unzip luarocks
+RUN apt install git unzip luarocks -y
 RUN luarocks install kong-oidc
 RUN git clone --branch v${OIDC_PLUGIN_VERSION} https://github.com/revomatico/kong-oidc.git
 WORKDIR /kong-oidc
