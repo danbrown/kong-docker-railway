@@ -78,4 +78,4 @@ RUN kong migrations bootstrap
 
 EXPOSE 8000 8443 8001 8444 8002 8445
 
-CMD ["kong", "docker-start", "-c", "/etc/kong.conf", "--vv"]
+# CMD ["kong", "docker-start", "-c", "/etc/kong.conf", "--vv"]
