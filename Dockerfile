@@ -76,6 +76,7 @@ USER kong
 
 # Run kong migrations database 'kong' in postgres should already exist
 RUN kong migrations bootstrap
+RUN kong migrations finish
 RUN kong migrations up
 
 EXPOSE 8000 8443 8001 8444 8002 8445
