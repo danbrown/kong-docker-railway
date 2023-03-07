@@ -50,8 +50,8 @@ ENV KONG_PG_USER $PGUSER
 COPY ./kong.yml /kong/declarative/kong.yml
 
 # Setup kong.conf custom config
-COPY kong.conf /etc/kong.conf
-RUN kong check /etc/kong.conf
+COPY kong.conf /etc/kong/kong.conf
+RUN kong check /etc/kong/kong.conf
 
 
 # download kong-oidc and jwt plugin
@@ -81,4 +81,4 @@ RUN kong migrations up
 
 EXPOSE 8000 8443 8001 8444 8002 8445
 
-# CMD ["kong", "docker-start", "-c", "/etc/kong.conf", "--vv"]
+CMD ["kong", "docker-start", "-c", "/etc/kong.conf", "--vv"]
