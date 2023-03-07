@@ -49,7 +49,7 @@ ENV KONG_PG_USER $PGUSER
 # RUN echo $KONG_PG_USER
 
 # Setup kong.yml
-COPY ./kong.yml /kong/declarative/kong.yml
+COPY ./kong.yml /usr/local/kong/declarative/kong.yml
 
 # Setup kong.conf custom config
 COPY kong.conf /etc/kong/kong.conf
