@@ -49,7 +49,9 @@ ENV KONG_PG_USER $PGUSER
 # RUN echo $KONG_PG_USER
 
 # Setup kong.yml
-COPY ./kong.yml /usr/local/kong/declarative/kong.yml
+COPY ./kong.yml /kong/declarative/kong.yml
+ARG KONG_DECLARATIVE_CONFIG="/kong/declarative/kong.yml"
+ENV KONG_DECLARATIVE_CONFIG $KONG_DECLARATIVE_CONFIG
 
 # Setup kong.conf custom config
 COPY kong.conf /etc/kong/kong.conf
