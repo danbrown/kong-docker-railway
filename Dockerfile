@@ -1,5 +1,5 @@
 # Get base image
-FROM kong:2.8.3
+FROM kong/kong-gateway
 
 # Kong setup
 ENV KONG_DECLARATIVE_CONFIG=/usr/local/kong/declarative/kong.yml
